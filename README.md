@@ -36,4 +36,4 @@ This is an early prototype that runs on **sample data**. Subsidy figures are ind
 It is a single static file. Open `index.html` in a browser, or enable GitHub Pages on the main branch.
 
 ## Author
-Sanket Chaudhari
+Ashish Patil (आशिष पाटील) · Proposed by Aashunik Foundation / Aashunik Skill Workforce Pvt. Ltd.
