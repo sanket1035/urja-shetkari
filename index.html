@@ -5,82 +5,86 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Urja Shetkari</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Mukta:wght@400;600;800&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
+/* Layout: Indian public-service portal look: tricolour strip, utility bar, navy masthead, saffron nav, white content cards, dark footer. Light only. */
 *{box-sizing:border-box}body{margin:0}[hidden]{display:none!important}
-/* Layout: field-ledger app — sticky top bar, tab strip, one working panel at a time */
-:root{
-  --bg:#f3f5ee; --surface:#ffffff; --fg:#1d2a1f; --muted:#5d6b5c; --line:#d9dfd2;
-  --accent:#2f7d32; --accent-ink:#ffffff; --sun:#e0a106; --soil:#8a5a2b; --warn:#b3261e;
-  --display:"Mukta",system-ui,sans-serif; --body:"Mukta",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#111711; --surface:#1a221a; --fg:#e6ede2; --muted:#9fae9c; --line:#2d3a2c;
-  --accent:#6cc070; --accent-ink:#0c160c; --sun:#f2bf3c; --soil:#d39a5e; --warn:#ff8a80; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#111711; --surface:#1a221a; --fg:#e6ede2; --muted:#9fae9c; --line:#2d3a2c;
-  --accent:#6cc070; --accent-ink:#0c160c; --sun:#f2bf3c; --soil:#d39a5e; --warn:#ff8a80; color-scheme:dark}
-body{background:var(--bg);color:var(--fg);font:16px/1.5 var(--body)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
-.wrap{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
-.brand{font:800 1.4rem/1 var(--display);color:var(--accent)}
-.brand small{display:block;font:400 .8rem var(--body);color:var(--muted)}
-.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
-.lang button{border:0;background:none;color:var(--fg);padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
-nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
-nav button{flex:none;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:8px;padding:6px 12px;font:600 .95rem var(--body);cursor:pointer}
-nav button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
-h1{font:800 1.6rem/1.2 var(--display);text-wrap:balance;margin:20px 0 4px}
-.lead{color:var(--muted);margin:0 0 16px;max-width:65ch}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
-label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.9rem}
-input,select{font:16px var(--body);padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
-.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:10px 16px;font:700 1rem var(--body);cursor:pointer}
+:root{color-scheme:light;
+  --bg:#f4f6f9; --surface:#ffffff; --fg:#1b1f2a; --muted:#5a6375; --line:#d8dde6;
+  --navy:#0b2e59; --navy-2:#123f7a; --saffron:#f28c28; --green:#138808;
+  --accent:#0b5ed7; --accent-ink:#ffffff; --sun:#f28c28; --soil:#8a5a2b; --warn:#c62828;
+  --display:"Noto Sans","Mukta",system-ui,sans-serif; --body:"Noto Sans","Mukta",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body)}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
+.tri{height:4px;background:linear-gradient(90deg,var(--saffron) 0 33.3%,#fff 33.3% 66.6%,var(--green) 66.6%)}
+.util{background:#eef1f5;border-bottom:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+.util .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:4px}
+.util a{color:var(--navy);text-decoration:none}
+.lang{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#fff}
+.lang button{border:0;background:none;color:var(--navy);padding:3px 10px;font:600 .8rem var(--body);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--navy);color:#fff}
+.mast{background:var(--surface);border-bottom:3px solid var(--saffron)}
+.mast .wrap{display:flex;align-items:center;gap:14px;padding-block:14px}
+.logo{flex:none;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 50% 42%,var(--saffron) 0 30%,transparent 31%),conic-gradient(var(--green) 0 50%,#2e7d32 50%);display:grid;place-items:center;border:2px solid var(--navy)}
+.brand{font:800 1.5rem/1.15 var(--display);color:var(--navy)}
+.brand small{display:block;font:500 .85rem var(--body);color:var(--muted)}
+nav{background:var(--navy)}
+nav .in{display:flex;overflow-x:auto;max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+nav button{flex:none;border:0;border-bottom:3px solid transparent;background:none;color:#fff;padding:12px 16px;font:600 .92rem var(--body);cursor:pointer}
+nav button:hover{background:var(--navy-2)}
+nav button[aria-selected="true"]{border-bottom-color:var(--saffron);background:var(--navy-2)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+.crumb{font-size:.8rem;color:var(--muted);margin-top:16px}
+h1{font:700 1.5rem/1.25 var(--display);color:var(--navy);text-wrap:balance;margin:6px 0 4px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+.lead{color:var(--muted);margin:8px 0 16px;max-width:75ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px;min-width:0;box-shadow:0 1px 2px rgba(11,46,89,.06)}
+form.panel{border-top:3px solid var(--navy)}
+label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.88rem;color:var(--navy)}
+input,select{font:15px var(--body);padding:8px 10px;border:1px solid #b9c2d0;border-radius:4px;background:#fff;color:var(--fg)}
+.btn{background:var(--saffron);color:#1b1f2a;border:0;border-radius:4px;padding:10px 20px;font:700 .95rem var(--body);cursor:pointer}
+.btn:hover{filter:brightness(.95)}
 .results{display:grid;gap:12px;margin-top:16px}
-.scheme{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px}
-.scheme.no{border-left-color:var(--line);opacity:.75}
-.scheme h3{margin:0 0 4px;font:700 1.1rem var(--display)}
-.pill{display:inline-block;font:600 .75rem var(--body);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
-.pill.ok{color:var(--accent);border-color:var(--accent)}
-.pill.warn{color:var(--warn);border-color:var(--warn)}
-.num{font:500 1.6rem var(--mono);font-variant-numeric:tabular-nums}
+.scheme{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:4px;padding:14px 16px}
+.scheme.no{border-left-color:#b9c2d0;background:#fafbfc}
+.scheme h3{margin:4px 0;font:700 1.05rem var(--display);color:var(--navy)}
+.pill{display:inline-block;font:700 .7rem var(--body);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:3px;background:#eef1f5;color:var(--muted)}
+.pill.ok{background:#e6f4e4;color:var(--green)}
+.pill.warn{background:#fdecea;color:var(--warn)}
+.num{font:600 1.6rem var(--mono);font-variant-numeric:tabular-nums;color:var(--navy)}
 .k{color:var(--muted);font-size:.85rem}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-.tbl{overflow-x:auto}
-th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
-th{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-.note{font-size:.85rem;color:var(--muted);margin-top:12px;max-width:65ch}
-.demo{background:var(--sun);color:#1d1a0a;font:600 .8rem var(--body);text-align:center;padding:4px 16px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+.tbl{overflow-x:auto;padding:0}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:.78rem;color:#fff;background:var(--navy);text-transform:uppercase;letter-spacing:.04em}
+tbody tr:nth-child(even){background:#f8f9fb}
+.note{font-size:.82rem;color:var(--muted);margin-top:12px;max-width:75ch}
+.demo{background:#fff4e5;color:#7a4200;font:600 .8rem var(--body);text-align:center;padding:6px 16px;border-bottom:1px solid #f5d3a6}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
 svg text{fill:var(--muted);font:12px var(--mono)}
 .status{display:flex;align-items:center;gap:8px;font-weight:700}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--green)}
 .dot.bad{background:var(--warn)}
+footer{background:var(--navy);color:#cfd8e6;font-size:.82rem;margin-top:24px}
+footer .wrap{padding-block:20px;display:grid;gap:6px}
+footer strong{color:#fff}
 </style>
 </head>
 <body>
 
-<div class="demo" data-t="demo">Prototype demo · sample data · figures indicative, verify with MSEDCL / MNRE / GOBARdhan</div>
-<header><div class="wrap" style="padding-block:0">
-  <div class="bar">
-    <div class="brand">उर्जा शेतकरी<small data-t="tag">अन्नदाता ते ऊर्जादाता</small></div>
-    <div class="lang"><button id="l-mr" aria-pressed="true">मराठी</button><button id="l-en" aria-pressed="false">English</button></div>
-  </div>
-  <nav role="tablist">
+<div class="tri"></div>
+<div class="util"><div class="wrap"><span data-t="utl">शेतकरी ऊर्जा सेवा पोर्टल (विद्यार्थी प्रोटोटाइप)</span><div class="lang"><button id="l-mr" aria-pressed="true">मराठी</button><button id="l-en" aria-pressed="false">English</button></div></div></div>
+<div class="mast"><div class="wrap"><div class="logo" aria-hidden="true"></div><div class="brand">उर्जा शेतकरी<small data-t="tag">अन्नदाता ते ऊर्जादाता · सौर व बायोगॅस योजना एकाच ठिकाणी</small></div></div></div>
+<nav><div class="in" role="tablist">
     <button role="tab" data-tab="yojana" aria-selected="true" data-t="t1">योजना शोधा</button>
     <button role="tab" data-tab="gobar" aria-selected="false" data-t="t2">शेण संकलन</button>
     <button role="tab" data-tab="install" aria-selected="false" data-t="t3">गावातील इंस्टॉलर</button>
     <button role="tab" data-tab="monitor" aria-selected="false" data-t="t4">सोलर मॉनिटर</button>
     <button role="tab" data-tab="income" aria-selected="false" data-t="t5">माझे उत्पन्न</button>
-  </nav>
-</div></header>
+  </div></nav>
+<div class="demo" data-t="demo">प्रोटोटाइप डेमो · नमुना माहिती · आकडे अंदाजे, MSEDCL / MNRE / GOBARdhan कडून खात्री करा</div>
 
-<main class="wrap">
+<main class="wrap"><div class="crumb" data-t="crumb">मुख्यपृष्ठ › सेवा</div>
 <section id="yojana">
   <h1 data-t="h1">तुम्हाला कोणती योजना मिळू शकते?</h1>
   <p class="lead" data-t="p1">तुमची माहिती भरा. ॲप सांगेल कोणत्या सरकारी योजना लागू होतात, तुमचा वाटा किती आणि कोणती कागदपत्रे लागतील.</p>
@@ -140,10 +144,11 @@ svg text{fill:var(--muted);font:12px var(--mono)}
   <p class="note" data-t="inote">उदाहरण आकडे, 4 एकर, 6 जनावरे. वास्तविक उत्पन्न योजना, दर आणि हवामानावर अवलंबून.</p>
 </section>
 </main>
+<footer><div class="wrap"><strong data-t="ft1">उर्जा शेतकरी · Seva First Innovation Challenge 2026 साठी विद्यार्थी प्रकल्प</strong><span data-t="ft2">हे अधिकृत सरकारी संकेतस्थळ नाही. योजनांची अधिकृत माहिती pmkusum.mnre.gov.in, mahadiscom.in आणि gobardhan.sbm.gov.in वर पहा.</span><span data-t="ft3">विकसक: संकेत चौधरी</span></div></footer>
 
 <script>
 const T={
- en:{demo:"Prototype demo · sample data · figures indicative, verify with MSEDCL / MNRE / GOBARdhan",tag:"From food provider to energy provider",t1:"Find schemes",t2:"Dung collection",t3:"Village installers",t4:"Solar monitor",t5:"My income",
+ en:{utl:"Farmer Energy Services Portal (student prototype)",crumb:"Home › Services",ft1:"Urja Shetkari · Student project for Seva First Innovation Challenge 2026",ft2:"This is not an official government website. For official scheme details see pmkusum.mnre.gov.in, mahadiscom.in and gobardhan.sbm.gov.in.",ft3:"Developer: Sanket Chaudhari",demo:"Prototype demo · sample data · figures indicative, verify with MSEDCL / MNRE / GOBARdhan",tag:"From food provider to energy provider · Solar and biogas schemes in one place",t1:"Find schemes",t2:"Dung collection",t3:"Village installers",t4:"Solar monitor",t5:"My income",
  h1:"Which schemes can you get?",p1:"Fill in your details. The app shows which government schemes apply, your share of the cost, and the documents you need.",acres:"Land (acres)",sub:"Distance to substation (km)",hp:"Pump capacity",cat:"Category",gen:"General",scst:"SC / ST",cows:"Cows / buffaloes",grid:"Has electricity connection?",no:"No (diesel pump)",yes:"Yes",check:"Check",
  h2:"Give dung, get paid",p2:"Farmers log their daily dung. A village collector picks it up and delivers it to the CBG plant. Payment goes straight to UPI.",farmer:"Farmer",kg:"Kg",add:"Add entry",today:"Collected today",paid:"Due to farmers",cbg:"Estimated CBG",st:"Status",gnote:"Assumed: ₹1 per kg of dung, about 40 kg CBG per tonne of dung. The real rate is set by contract with the plant.",
  h3:"Trained solar technicians in your village",p3:"Suryamitra-trained youth from nearby villages. Pick the closest technician and book installation or repair.",
