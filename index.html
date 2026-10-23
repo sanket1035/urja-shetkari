@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Urja Shetkari</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+*{box-sizing:border-box}body{margin:0}[hidden]{display:none!important}
+/* Layout: field-ledger app — sticky top bar, tab strip, one working panel at a time */
+:root{
+  --bg:#f3f5ee; --surface:#ffffff; --fg:#1d2a1f; --muted:#5d6b5c; --line:#d9dfd2;
+  --accent:#2f7d32; --accent-ink:#ffffff; --sun:#e0a106; --soil:#8a5a2b; --warn:#b3261e;
+  --display:"Mukta",system-ui,sans-serif; --body:"Mukta",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111711; --surface:#1a221a; --fg:#e6ede2; --muted:#9fae9c; --line:#2d3a2c;
+  --accent:#6cc070; --accent-ink:#0c160c; --sun:#f2bf3c; --soil:#d39a5e; --warn:#ff8a80; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111711; --surface:#1a221a; --fg:#e6ede2; --muted:#9fae9c; --line:#2d3a2c;
+  --accent:#6cc070; --accent-ink:#0c160c; --sun:#f2bf3c; --soil:#d39a5e; --warn:#ff8a80; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.5 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.brand{font:800 1.4rem/1 var(--display);color:var(--accent)}
+.brand small{display:block;font:400 .8rem var(--body);color:var(--muted)}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:none;color:var(--fg);padding:6px 12px;font:600 .9rem var(--body);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
+nav button{flex:none;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:8px;padding:6px 12px;font:600 .95rem var(--body);cursor:pointer}
+nav button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+h1{font:800 1.6rem/1.2 var(--display);text-wrap:balance;margin:20px 0 4px}
+.lead{color:var(--muted);margin:0 0 16px;max-width:65ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.9rem}
+input,select{font:16px var(--body);padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:10px 16px;font:700 1rem var(--body);cursor:pointer}
+.results{display:grid;gap:12px;margin-top:16px}
+.scheme{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px}
+.scheme.no{border-left-color:var(--line);opacity:.75}
+.scheme h3{margin:0 0 4px;font:700 1.1rem var(--display)}
+.pill{display:inline-block;font:600 .75rem var(--body);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.pill.ok{color:var(--accent);border-color:var(--accent)}
+.pill.warn{color:var(--warn);border-color:var(--warn)}
+.num{font:500 1.6rem var(--mono);font-variant-numeric:tabular-nums}
+.k{color:var(--muted);font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.tbl{overflow-x:auto}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.note{font-size:.85rem;color:var(--muted);margin-top:12px;max-width:65ch}
+.demo{background:var(--sun);color:#1d1a0a;font:600 .8rem var(--body);text-align:center;padding:4px 16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+svg text{fill:var(--muted);font:12px var(--mono)}
+.status{display:flex;align-items:center;gap:8px;font-weight:700}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.dot.bad{background:var(--warn)}
+</style>
+</head>
+<body>
+
+<div class="demo" data-t="demo">Prototype demo · sample data · figures indicative, verify with MSEDCL / MNRE / GOBARdhan</div>
+<header><div class="wrap" style="padding-block:0">
+  <div class="bar">
+    <div class="brand">उर्जा शेतकरी<small data-t="tag">अन्नदाता ते ऊर्जादाता</small></div>
+    <div class="lang"><button id="l-mr" aria-pressed="true">मराठी</button><button id="l-en" aria-pressed="false">English</button></div>
+  </div>
+  <nav role="tablist">
+    <button role="tab" data-tab="yojana" aria-selected="true" data-t="t1">योजना शोधा</button>
+    <button role="tab" data-tab="gobar" aria-selected="false" data-t="t2">शेण संकलन</button>
+    <button role="tab" data-tab="install" aria-selected="false" data-t="t3">गावातील इंस्टॉलर</button>
+    <button role="tab" data-tab="monitor" aria-selected="false" data-t="t4">सोलर मॉनिटर</button>
+    <button role="tab" data-tab="income" aria-selected="false" data-t="t5">माझे उत्पन्न</button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+<section id="yojana">
+  <h1 data-t="h1">तुम्हाला कोणती योजना मिळू शकते?</h1>
+  <p class="lead" data-t="p1">तुमची माहिती भरा. ॲप सांगेल कोणत्या सरकारी योजना लागू होतात, तुमचा वाटा किती आणि कोणती कागदपत्रे लागतील.</p>
+  <form id="f" class="panel grid">
+    <label><span data-t="acres">जमीन (एकर)</span><input id="acres" type="number" min="0" step="0.5" value="4"></label>
+    <label><span data-t="sub">सबस्टेशनपासून अंतर (किमी)</span><input id="km" type="number" min="0" step="0.5" value="3"></label>
+    <label><span data-t="hp">पंप क्षमता</span><select id="hp"><option value="3">3 HP</option><option value="5" selected>5 HP</option><option value="7.5">7.5 HP</option></select></label>
+    <label><span data-t="cat">प्रवर्ग</span><select id="cat"><option value="gen" data-t="gen">सर्वसाधारण</option><option value="sc" data-t="scst">SC / ST</option></select></label>
+    <label><span data-t="cows">गाय / म्हैस संख्या</span><input id="cows" type="number" min="0" value="6"></label>
+    <label><span data-t="grid">विद्युत कनेक्शन आहे?</span><select id="grid"><option value="no" data-t="no">नाही (डिझेल पंप)</option><option value="yes" data-t="yes">होय</option></select></label>
+    <div class="row"><button class="btn" type="submit" data-t="check">तपासा</button></div>
+  </form>
+  <div id="res" class="results"></div>
+</section>
+
+<section id="gobar" hidden>
+  <h1 data-t="h2">शेण द्या, पैसे मिळवा</h1>
+  <p class="lead" data-t="p2">शेतकरी रोजचे शेण नोंदवतात. गावातील संकलक ते उचलतो आणि CBG प्लांटला पोहोचवतो. पैसे थेट UPI वर.</p>
+  <form id="gf" class="panel row">
+    <label style="flex:1 1 160px"><span data-t="farmer">शेतकरी</span><input id="gname" value="सुनीता पाटील"></label>
+    <label style="flex:0 1 120px"><span data-t="kg">किलो</span><input id="gkg" type="number" min="1" value="60"></label>
+    <button class="btn" type="submit" data-t="add">नोंद करा</button>
+  </form>
+  <div class="grid" style="margin-top:12px">
+    <div class="panel"><div class="k" data-t="today">आजचे संकलन</div><div class="num" id="gtot">0 kg</div></div>
+    <div class="panel"><div class="k" data-t="paid">शेतकऱ्यांना देय</div><div class="num" id="gpay">₹0</div></div>
+    <div class="panel"><div class="k" data-t="cbg">अंदाजे CBG</div><div class="num" id="gcbg">0 kg</div></div>
+  </div>
+  <div class="panel tbl" style="margin-top:12px"><table><thead><tr><th data-t="farmer">शेतकरी</th><th data-t="kg">किलो</th><th>₹</th><th data-t="st">स्थिती</th></tr></thead><tbody id="gt"></tbody></table></div>
+  <p class="note" data-t="gnote">गृहीत: ₹1 प्रति किलो शेण, 1 टन शेणापासून सुमारे 40 किलो CBG. प्रत्यक्ष दर प्लांटशी करारावर ठरतो.</p>
+</section>
+
+<section id="install" hidden>
+  <h1 data-t="h3">गावातील प्रशिक्षित सोलर तंत्रज्ञ</h1>
+  <p class="lead" data-t="p3">सूर्यमित्र प्रशिक्षित गावातील तरुण. जवळचा तंत्रज्ञ निवडा आणि इंस्टॉलेशन किंवा दुरुस्ती बुक करा.</p>
+  <div class="grid" id="inst"></div>
+  <p class="note" id="bk" role="status"></p>
+</section>
+
+<section id="monitor" hidden>
+  <h1 data-t="h4">सोलर पंप मॉनिटर</h1>
+  <p class="lead" data-t="p4">ESP32 + करंट सेन्सर पॅनेलचे उत्पादन मोजतो. उत्पादन अपेक्षेपेक्षा कमी झाल्यास अलर्ट (धूळ किंवा बिघाड).</p>
+  <div class="grid">
+    <div class="panel"><div class="k" data-t="now">सध्याचे उत्पादन</div><div class="num" id="mnow">–</div></div>
+    <div class="panel"><div class="k" data-t="todaykwh">आज एकूण</div><div class="num" id="mkwh">–</div></div>
+    <div class="panel"><div class="k" data-t="health">पॅनेल स्थिती</div><div class="status" id="mst"><span class="dot"></span><span>–</span></div></div>
+  </div>
+  <div class="panel" style="margin-top:12px"><svg id="chart" viewBox="0 0 640 220" width="100%" role="img" aria-label="Solar output today"></svg></div>
+  <div class="row" style="margin-top:12px"><button class="btn" id="dust" data-t="dust">धूळ परिस्थिती दाखवा</button></div>
+  <p class="note" data-t="mnote">डेमो डेटा: 5 HP (≈3.7 kW) पंप, सिम्युलेटेड. प्रत्यक्ष उपकरणात ESP32 + INA219 डेटा पाठवेल.</p>
+</section>
+
+<section id="income" hidden>
+  <h1 data-t="h5">एका शेतकऱ्याचे वार्षिक उत्पन्न (उदाहरण)</h1>
+  <p class="lead" data-t="p5">पिकासोबत ऊर्जा आणि शेणातून येणारे उत्पन्न एकाच ठिकाणी.</p>
+  <div class="panel" id="inc"></div>
+  <p class="note" data-t="inote">उदाहरण आकडे, 4 एकर, 6 जनावरे. वास्तविक उत्पन्न योजना, दर आणि हवामानावर अवलंबून.</p>
+</section>
+</main>
+
+<script>
+const T={
+ en:{demo:"Prototype demo · sample data · figures indicative, verify with MSEDCL / MNRE / GOBARdhan",tag:"From food provider to energy provider",t1:"Find schemes",t2:"Dung collection",t3:"Village installers",t4:"Solar monitor",t5:"My income",
+ h1:"Which schemes can you get?",p1:"Fill in your details. The app shows which government schemes apply, your share of the cost, and the documents you need.",acres:"Land (acres)",sub:"Distance to substation (km)",hp:"Pump capacity",cat:"Category",gen:"General",scst:"SC / ST",cows:"Cows / buffaloes",grid:"Has electricity connection?",no:"No (diesel pump)",yes:"Yes",check:"Check",
+ h2:"Give dung, get paid",p2:"Farmers log their daily dung. A village collector picks it up and delivers it to the CBG plant. Payment goes straight to UPI.",farmer:"Farmer",kg:"Kg",add:"Add entry",today:"Collected today",paid:"Due to farmers",cbg:"Estimated CBG",st:"Status",gnote:"Assumed: ₹1 per kg of dung, about 40 kg CBG per tonne of dung. The real rate is set by contract with the plant.",
+ h3:"Trained solar technicians in your village",p3:"Suryamitra-trained youth from nearby villages. Pick the closest technician and book installation or repair.",
+ h4:"Solar pump monitor",p4:"An ESP32 with a current sensor measures panel output. If output drops below expected, it alerts you (dust or fault).",now:"Output now",todaykwh:"Today total",health:"Panel health",dust:"Show dusty-panel case",mnote:"Demo data: 5 HP (≈3.7 kW) pump, simulated. The real device will send ESP32 + INA219 readings.",
+ h5:"One farmer's yearly income (example)",p5:"Crop, energy and dung income in one place.",inote:"Example figures for 4 acres and 6 animals. Real income depends on scheme, rates and weather."},
+ mr:{}
+};
+let lang="mr";
+document.querySelectorAll("[data-t]").forEach(e=>T.mr[e.dataset.t]=e.textContent);
+const L=(mr,en)=>lang==="mr"?mr:en;
+function setLang(l){lang=l;document.documentElement.lang=l==="mr"?"mr":"en";
+ document.querySelectorAll("[data-t]").forEach(e=>{const v=T[l][e.dataset.t];if(v)e.textContent=v});
+ document.getElementById("l-mr").setAttribute("aria-pressed",l==="mr");document.getElementById("l-en").setAttribute("aria-pressed",l==="en");
+ check();renderG();renderI();renderInc();drawM();}
+document.getElementById("l-mr").onclick=()=>setLang("mr");document.getElementById("l-en").onclick=()=>setLang("en");
+
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x===b));
+ document.querySelectorAll("main section").forEach(s=>s.hidden=s.id!==b.dataset.tab);});
+
+const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const PUMP={3:190000,5:285000,7.5:380000};
+function check(){
+ const a=+acres.value,k=+km.value,h=+hp.value,sc=cat.value==="sc",c=+cows.value,g=grid.value==="yes";
+ const share=PUMP[h]*(sc?.05:.10);
+ const out=[];
+ out.push({ok:true,t:L("पीएम-कुसुम ब / मागेल त्याला सौर कृषी पंप","PM-KUSUM B / Magel Tyala Saur Krushi Pump"),
+  d:L(`${h} HP सौर पंप, अंदाजे किंमत ${inr(PUMP[h])}. तुमचा वाटा ${sc?"5%":"10%"} = ${inr(share)}. डिझेल खर्च बंद.`,`${h} HP solar pump, approx. cost ${inr(PUMP[h])}. Your share ${sc?"5%":"10%"} = ${inr(share)}. No more diesel cost.`),
+  docs:L("7/12 उतारा, आधार, बँक पासबुक, जातीचा दाखला (SC/ST), पाण्याचा स्रोत","7/12 extract, Aadhaar, bank passbook, caste certificate (SC/ST), water source proof"),tag:g?L("ग्रीड असूनही पात्र","Eligible even with grid"):L("पात्र","Eligible")});
+ const A=a>=2&&k<=5;
+ out.push({ok:A,t:L("पीएम-कुसुम अ: शेतात सौर प्लांट","PM-KUSUM A: solar plant on your land"),
+  d:A?L(`सुमारे ${(a/4).toFixed(1)} MW प्लांट शक्य. 25 वर्षे MSEDCL वीज खरेदी. अंदाजे उत्पन्न ${inr(a*300000)} / वर्ष (अंदाज, गुंतवणूक स्वतःची किंवा डेव्हलपरसोबत).`,`About ${(a/4).toFixed(1)} MW plant possible. 25-year power sale to MSEDCL. Estimated income ${inr(a*300000)} / year (estimate; investment by you or a developer).`)
+   :L("किमान 2 एकर आणि सबस्टेशनपासून 5 किमीच्या आत जमीन लागते.","Needs at least 2 acres within 5 km of a substation."),
+  docs:L("7/12, जमीन नकाशा, बँक कर्ज मंजुरी","7/12, land map, bank loan sanction"),tag:A?L("पात्र","Eligible"):L("पात्र नाही","Not eligible")});
+ const M=a>=3&&k<=10;
+ out.push({ok:M,t:L("मुख्यमंत्री सौर कृषी वाहिनी: जमीन भाडे","MSKVY: lease land to a solar developer"),
+  d:M?L(`पडीक जमीन भाड्याने द्या: अंदाजे ${inr(a*30000)} ते ${inr(a*60000)} / वर्ष. गावाला दिवसा वीज.`,`Lease unused land: approx. ${inr(a*30000)} to ${inr(a*60000)} / year. Daytime power for the village.`)
+   :L("सबस्टेशनजवळ अधिक जमीन लागते.","Needs more land near a substation."),docs:L("7/12, संमतीपत्र","7/12, consent letter"),tag:M?L("तपासणीस पात्र","Worth applying"):L("पात्र नाही","Not eligible")});
+ const kg=c*10*365;
+ out.push({ok:c>0,t:L("गोबरधन: गाव CBG प्लांटला शेण","GOBARdhan: dung to village CBG plant"),
+  d:L(`${c} जनावरे ≈ ${kg.toLocaleString("en-IN")} किलो शेण / वर्ष ≈ ${inr(kg*1)} उत्पन्न + सेंद्रिय खत परत. प्लांटला ₹2 कोटी / TPD केंद्र मदत.`,`${c} animals ≈ ${kg.toLocaleString("en-IN")} kg dung / year ≈ ${inr(kg)} income + organic manure back. Plant gets ₹2 crore / TPD central support.`),
+  docs:L("FPO / सहकारी संस्था सदस्यत्व","FPO / cooperative membership"),tag:c>0?L("पात्र","Eligible"):L("जनावरे नाहीत","No animals")});
+ res.innerHTML=out.map(o=>`<div class="scheme ${o.ok?"":"no"}"><span class="pill ${o.ok?"ok":"warn"}">${o.tag}</span><h3>${o.t}</h3><div>${o.d}</div><div class="k" style="margin-top:6px">${L("कागदपत्रे","Documents")}: ${o.docs}</div></div>`).join("");
+}
+f.onsubmit=e=>{e.preventDefault();check()};
+
+const G=[{n:"सुनीता पाटील",e:"Sunita Patil",kg:60,s:1},{n:"रामदास जाधव",e:"Ramdas Jadhav",kg:85,s:1},{n:"अनिल शिंदे",e:"Anil Shinde",kg:40,s:0},{n:"कविता गायकवाड",e:"Kavita Gaikwad",kg:55,s:0}];
+function renderG(){let t=0;gt.innerHTML=G.map(r=>{t+=r.kg;return `<tr><td>${lang==="mr"?r.n:(r.e||r.n)}</td><td>${r.kg}</td><td>${inr(r.kg)}</td><td><span class="pill ${r.s?"ok":""}">${r.s?L("उचलले","Picked up"):L("प्रतीक्षा","Waiting")}</span></td></tr>`}).join("");
+ gtot.textContent=t.toLocaleString("en-IN")+" kg";gpay.textContent=inr(t);gcbg.textContent=(t*.04).toFixed(1)+" kg";}
+gf.onsubmit=e=>{e.preventDefault();const kg=+gkg.value;if(!gname.value.trim()||kg<=0)return;G.unshift({n:gname.value.trim(),kg,s:0});renderG();};
+
+const I=[["गणेश पवार","Ganesh Pawar","त्र्यंबक, 2 किमी","Trimbak, 2 km",4.8,"सूर्यमित्र"],["प्रिया वाघ","Priya Wagh","अंजनेरी, 5 किमी","Anjaneri, 5 km",4.6,"ITI + सूर्यमित्र"],["सागर मोरे","Sagar More","पेठ, 9 किमी","Peth, 9 km",4.3,"सूर्यमित्र"]];
+function renderI(){inst.innerHTML=I.map((r,i)=>`<div class="panel"><h3 style="margin:0">${lang==="mr"?r[0]:r[1]}</h3><div class="k">${lang==="mr"?r[2]:r[3]}</div><div style="margin:6px 0"><span class="pill ok">${r[5].replace("सूर्यमित्र","Suryamitra")}</span> ★ ${r[4]}</div><button class="btn" data-i="${i}">${L("बुक करा","Book")}</button></div>`).join("");
+ inst.querySelectorAll("button").forEach(b=>b.onclick=()=>{bk.textContent=L(`${I[b.dataset.i][0]} यांना विनंती पाठवली (डेमो).`,`Request sent to ${I[b.dataset.i][1]} (demo).`)});}
+
+let dusty=false;
+function drawM(){const pts=[];let sum=0;for(let h=6;h<=18;h+=.5){let v=3.7*Math.max(0,Math.sin(Math.PI*(h-6)/12));if(dusty&&h>=11)v*=.62;pts.push([h,v]);sum+=v*.5;}
+ const x=h=>40+(h-6)/12*580,y=v=>190-v/4*170;
+ let s=`<line x1="40" y1="190" x2="620" y2="190" stroke="currentColor" opacity=".2"/>`;
+ [0,1,2,3,4].forEach(v=>s+=`<line x1="40" x2="620" y1="${y(v)}" y2="${y(v)}" stroke="currentColor" opacity=".08"/><text x="4" y="${y(v)+4}">${v}kW</text>`);
+ [6,9,12,15,18].forEach(h=>s+=`<text x="${x(h)-12}" y="210">${h}:00</text>`);
+ const d=pts.map((p,i)=>(i?"L":"M")+x(p[0]).toFixed(1)+" "+y(p[1]).toFixed(1)).join(" ");
+ s+=`<path d="${d} L${x(18)} ${y(0)} L${x(6)} ${y(0)} Z" fill="var(--sun)" opacity=".2"/><path d="${d}" fill="none" stroke="var(--sun)" stroke-width="2.5"/>`;
+ const nowP=pts[14];s+=`<circle cx="${x(nowP[0])}" cy="${y(nowP[1])}" r="5" fill="var(--accent)"/>`;
+ chart.style.color="var(--fg)";chart.innerHTML=s;
+ mnow.textContent=nowP[1].toFixed(2)+" kW";mkwh.textContent=sum.toFixed(1)+" kWh";
+ mst.innerHTML=dusty?`<span class="dot bad"></span><span style="color:var(--warn)">${L("38% कमी: पॅनेल स्वच्छ करा","38% low: clean panels")}</span>`:`<span class="dot"></span><span>${L("ठीक","Normal")}</span>`;
+ dust.textContent=dusty?L("स्वच्छ पॅनेल दाखवा","Show clean panel"):L("धूळ परिस्थिती दाखवा","Show dusty-panel case");}
+dust.onclick=()=>{dusty=!dusty;drawM()};
+
+function renderInc(){const rows=[[L("पीक (कांदा/सोयाबीन)","Crop (onion/soybean)"),160000,"var(--accent)"],[L("सौर: डिझेल बचत","Solar: diesel saved"),45000,"var(--sun)"],[L("जमीन भाडे (MSKVY, 1 एकर)","Land lease (MSKVY, 1 acre)"),40000,"var(--sun)"],[L("शेण विक्री","Dung sales"),21900,"var(--soil)"]];
+ const tot=rows.reduce((a,r)=>a+r[1],0),max=rows[0][1];
+ inc.innerHTML=rows.map(r=>`<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;margin-bottom:10px"><div>${r[0]}</div><div style="font:500 1rem var(--mono)">${inr(r[1])}</div><div style="grid-column:1/-1;height:10px;background:var(--bg);border-radius:5px"><div style="height:100%;width:${r[1]/max*100}%;background:${r[2]};border-radius:5px"></div></div></div>`).join("")+
+ `<div style="border-top:1px solid var(--line);padding-top:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><strong>${L("एकूण","Total")}</strong><span class="num">${inr(tot)}</span></div><div class="k">${L("फक्त पिकापेक्षा","vs crop only")} +${Math.round((tot-max)/max*100)}%</div>`;}
+check();renderG();renderI();renderInc();drawM();
+</script>
+</body>
+</html>
