@@ -8,6 +8,8 @@ Submitted to the **Seva First Innovation Challenge 2026** (Ministry of Education
 
 **Live demo:** https://sanket1035.github.io/urja-shetkari/
 
+**Project proposal (PDF, Marathi):** [docs/Viksit_Shetkari_Project_Proposal.pdf](docs/Viksit_Shetkari_Project_Proposal.pdf)
+
 ## Problem
 Farmers depend on one crop and are pushed into debt by irregular rain and drought. Government schemes already exist: PM-KUSUM, Magel Tyala Saur Krushi Pump, Mukhyamantri Saur Krushi Vahini (MSKVY) and GOBARdhan. But farmers don't know what they qualify for, installers are far away, and CBG plants struggle to collect dung from many small farms.
 
