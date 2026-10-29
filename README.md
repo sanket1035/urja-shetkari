@@ -35,11 +35,11 @@ Small and marginal farmers, village youth and ITI students, FPOs and cooperative
 ## Status
 This is an early prototype that runs on **sample data**. Mandi prices and rainfall thresholds are samples. Subsidy figures are indicative and must be verified with MSEDCL, MNRE and the GOBARdhan portal. The hardware monitor is simulated.
 
-## Roadmap
-1. Survey 10–20 farmers in one village near Nashik.
-2. Build an MVP with a backend (Firebase or Supabase) and a real ESP32 monitor.
-3. Pilot with one FPO and one CBG unit.
-4. Add a WhatsApp/IVR version for farmers without smartphones.
+## Roadmap (3-month pilot)
+1. **Month 1:** Survey one village near Nashik, interview 10-20 farmers, put the MVP online, form the farmer group.
+2. **Month 2:** File solar pump scheme applications, fit the IoT monitor on 3-5 pumps, start dung collection, set up a small biogas unit.
+3. **Month 3:** Train 10-20 village youth, test the group lot and the crop-loss evidence sheet, measure results and report.
+4. **After 3 months:** Scheme-approved solar pumps (the approval process can take roughly 75-100 days), a GOBARdhan CBG plant, and more villages.
 
 ## Run
 It is a single static file. Open `index.html` in a browser, or enable GitHub Pages on the main branch.
