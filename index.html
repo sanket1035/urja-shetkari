@@ -7,95 +7,141 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&family=Mukta:wght@400;600;800&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-/* Layout: Indian public-service portal look: tricolour strip, utility bar, navy masthead, saffron nav, white content cards, dark footer. Light only. */
+/* Layout: gov-portal shell (tricolour strip, utility + accessibility bar, navy masthead) with a SaaS dashboard body: sticky sidebar nav, KPI hero, module tiles. Light only. */
 *{box-sizing:border-box}body{margin:0}[hidden]{display:none!important}
+html{font-size:15px;scroll-behavior:smooth}
 :root{color-scheme:light;
-  --bg:#f4f6f9; --surface:#ffffff; --fg:#1b1f2a; --muted:#5a6375; --line:#d8dde6;
-  --navy:#0b2e59; --navy-2:#123f7a; --saffron:#f28c28; --green:#138808;
-  --accent:#0b5ed7; --accent-ink:#ffffff; --sun:#f28c28; --soil:#8a5a2b; --warn:#c62828;
-  --display:"Noto Sans","Mukta",system-ui,sans-serif; --body:"Noto Sans","Mukta",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;}
-body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body)}
-.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
+  --bg:#f3f5f9; --surface:#ffffff; --fg:#1b1f2a; --muted:#596277; --line:#dde2ea;
+  --navy:#0b2e59; --navy-2:#123f7a; --navy-3:#e8eef7; --saffron:#f28c28; --green:#138808;
+  --accent:#0b5ed7; --sun:#f28c28; --soil:#8a5a2b; --warn:#c62828;
+  --display:"Noto Sans","Mukta",system-ui,sans-serif; --body:"Noto Sans","Mukta",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --sh:0 1px 2px rgba(11,46,89,.06),0 4px 14px rgba(11,46,89,.05);}
+body{background:var(--bg);color:var(--fg);font:1rem/1.6 var(--body)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-999px;top:0;background:var(--saffron);color:#1b1f2a;padding:8px 14px;font-weight:700;z-index:50}
+.skip:focus{left:8px;top:8px}
 .tri{height:4px;background:linear-gradient(90deg,var(--saffron) 0 33.3%,#fff 33.3% 66.6%,var(--green) 66.6%)}
-.util{background:#eef1f5;border-bottom:1px solid var(--line);font-size:.8rem;color:var(--muted)}
-.util .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:4px}
-.util a{color:var(--navy);text-decoration:none}
-.lang{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#fff}
-.lang button{border:0;background:none;color:var(--navy);padding:3px 10px;font:600 .8rem var(--body);cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--navy);color:#fff}
+.util{background:#eaeef4;border-bottom:1px solid var(--line);font-size:.8rem;color:var(--muted)}
+.util .wrap{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding-block:4px}
+.ctl{display:flex;gap:8px;align-items:center}
+.seg{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#fff}
+.seg button{border:0;background:none;color:var(--navy);padding:3px 9px;font:600 .8rem var(--body);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--navy);color:#fff}
 .mast{background:var(--surface);border-bottom:3px solid var(--saffron)}
-.mast .wrap{display:flex;align-items:center;gap:14px;padding-block:14px}
-.logo{flex:none;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 50% 42%,var(--saffron) 0 30%,transparent 31%),conic-gradient(var(--green) 0 50%,#2e7d32 50%);display:grid;place-items:center;border:2px solid var(--navy)}
-.brand{font:800 1.5rem/1.15 var(--display);color:var(--navy)}
-.brand small{display:block;font:500 .85rem var(--body);color:var(--muted)}
-nav{background:var(--navy)}
-nav .in{display:flex;overflow-x:auto;max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-nav button{flex:none;border:0;border-bottom:3px solid transparent;background:none;color:#fff;padding:12px 16px;font:600 .92rem var(--body);cursor:pointer}
-nav button:hover{background:var(--navy-2)}
-nav button[aria-selected="true"]{border-bottom-color:var(--saffron);background:var(--navy-2)}
+.mast .wrap{display:flex;align-items:center;gap:14px;padding-block:12px}
+.logo{flex:none;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 50% 42%,var(--saffron) 0 30%,transparent 31%),conic-gradient(var(--green) 0 50%,#2e7d32 50%);border:2px solid var(--navy)}
+.brand{font:800 1.45rem/1.15 var(--display);color:var(--navy)}
+.brand small{display:block;font:500 .82rem var(--body);color:var(--muted)}
+.demo{background:#fff4e5;color:#7a4200;font:600 .8rem var(--body);text-align:center;padding:6px 16px;border-bottom:1px solid #f5d3a6}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);gap:24px;padding-top:20px;padding-bottom:28px;align-items:start}
+nav.side{position:sticky;top:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:var(--sh)}
+nav.side .in{display:flex;flex-direction:column;gap:2px}
+nav.side .lbl{font:700 .7rem var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px 4px}
+nav.side button{display:flex;align-items:center;gap:10px;border:0;background:none;color:var(--fg);padding:9px 10px;border-radius:6px;font:600 .92rem var(--body);cursor:pointer;text-align:left;width:100%}
+nav.side button svg{flex:none;width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:var(--muted)}
+nav.side button:hover{background:var(--navy-3)}
+nav.side button[aria-selected="true"]{background:var(--navy);color:#fff}
+nav.side button[aria-selected="true"] svg{color:var(--saffron)}
 button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
-.crumb{font-size:.8rem;color:var(--muted);margin-top:16px}
-h1{font:700 1.5rem/1.25 var(--display);color:var(--navy);text-wrap:balance;margin:6px 0 4px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+main{min-width:0}
+.crumb{font-size:.8rem;color:var(--muted);margin-bottom:2px}
+h1{font:700 1.45rem/1.25 var(--display);color:var(--navy);text-wrap:balance;margin:4px 0 4px;padding-bottom:8px;border-bottom:2px solid var(--line)}
 .lead{color:var(--muted);margin:8px 0 16px;max-width:75ch}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px;min-width:0;box-shadow:0 1px 2px rgba(11,46,89,.06)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0;box-shadow:var(--sh)}
 form.panel{border-top:3px solid var(--navy)}
 label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.88rem;color:var(--navy)}
-input,select{font:15px var(--body);padding:8px 10px;border:1px solid #b9c2d0;border-radius:4px;background:#fff;color:var(--fg)}
-.btn{background:var(--saffron);color:#1b1f2a;border:0;border-radius:4px;padding:10px 20px;font:700 .95rem var(--body);cursor:pointer}
+input,select{font:1rem var(--body);padding:8px 10px;border:1px solid #b9c2d0;border-radius:6px;background:#fff;color:var(--fg)}
+.btn{background:var(--saffron);color:#1b1f2a;border:0;border-radius:6px;padding:10px 20px;font:700 .95rem var(--body);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.15)}
 .btn:hover{filter:brightness(.95)}
+.btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.7);box-shadow:none}
 .results{display:grid;gap:12px;margin-top:16px}
-.scheme{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:4px;padding:14px 16px}
-.scheme.no{border-left-color:#b9c2d0;background:#fafbfc}
+.scheme{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:8px;padding:14px 16px;box-shadow:var(--sh)}
+.scheme.no{border-left-color:#b9c2d0;background:#fafbfc;box-shadow:none}
 .scheme h3{margin:4px 0;font:700 1.05rem var(--display);color:var(--navy)}
-.pill{display:inline-block;font:700 .7rem var(--body);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:3px;background:#eef1f5;color:var(--muted)}
-.pill.ok{background:#e6f4e4;color:var(--green)}
-.pill.warn{background:#fdecea;color:var(--warn)}
+.pill{display:inline-block;font:700 .7rem var(--body);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:#eef1f5;color:var(--muted)}
+.pill.ok{background:#e6f4e4;color:var(--green)}.pill.warn{background:#fdecea;color:var(--warn)}
 .num{font:600 1.6rem var(--mono);font-variant-numeric:tabular-nums;color:var(--navy)}
 .k{color:var(--muted);font-size:.85rem}
 table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 .tbl{overflow-x:auto;padding:0}
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
-th{font-size:.78rem;color:#fff;background:var(--navy);text-transform:uppercase;letter-spacing:.04em}
+th{font-size:.76rem;color:#fff;background:var(--navy);text-transform:uppercase;letter-spacing:.04em}
 tbody tr:nth-child(even){background:#f8f9fb}
 .note{font-size:.82rem;color:var(--muted);margin-top:12px;max-width:75ch}
-.demo{background:#fff4e5;color:#7a4200;font:600 .8rem var(--body);text-align:center;padding:6px 16px;border-bottom:1px solid #f5d3a6}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
 svg text{fill:var(--muted);font:12px var(--mono)}
 .status{display:flex;align-items:center;gap:8px;font-weight:700}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--green)}
-.dot.bad{background:var(--warn)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--green)}.dot.bad{background:var(--warn)}
 h2.sub{font:700 1.1rem var(--display);color:var(--navy);margin:22px 0 8px}
 ol.steps{list-style:none;counter-reset:st;margin:0;padding:0;display:grid;gap:10px}
-ol.steps li{counter-increment:st;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--saffron);border-radius:4px;padding:10px 14px 10px 52px;position:relative}
+ol.steps li{counter-increment:st;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--saffron);border-radius:8px;padding:10px 14px 10px 52px;position:relative;box-shadow:var(--sh)}
 ol.steps li::before{content:counter(st);position:absolute;left:14px;top:10px;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:700 .85rem var(--body)}
-.ev{border:2px dashed var(--navy);background:#fff;border-radius:4px;padding:14px;margin-top:12px}
-.ev img{max-width:100%;max-height:220px;border-radius:4px;border:1px solid var(--line);display:block;margin-top:8px}
-.lvl{display:inline-block;padding:3px 10px;border-radius:3px;font-weight:700;font-size:.85rem}
+.ev{border:2px dashed var(--navy);background:#fff;border-radius:8px;padding:14px;margin-top:12px}
+.ev img{max-width:100%;max-height:220px;border-radius:6px;border:1px solid var(--line);display:block;margin-top:8px}
+.lvl{display:inline-block;padding:3px 10px;border-radius:4px;font-weight:700;font-size:.85rem}
 .lvl.g{background:#e6f4e4;color:var(--green)}.lvl.y{background:#fff4e5;color:#7a4200}.lvl.r{background:#fdecea;color:var(--warn)}
-footer{background:var(--navy);color:#cfd8e6;font-size:.82rem;margin-top:24px}
-footer .wrap{padding-block:20px;display:grid;gap:6px}
-footer strong{color:#fff}
+/* overview */
+.hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;border-radius:12px;padding:24px;box-shadow:var(--sh)}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:3px 12px;font:600 .75rem var(--body)}
+.hero .big{font:800 1.9rem/1.2 var(--display);margin:10px 0 8px;color:#fff;border:0;padding:0;text-wrap:balance}
+.hero p{margin:0 0 16px;color:#d6e0f0;max-width:60ch}
+.hk{display:grid;gap:10px;align-content:center}
+.hk div{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:10px 14px}
+.hk b{display:block;font:700 1.5rem var(--mono);color:var(--saffron);font-variant-numeric:tabular-nums}
+.hk span{font-size:.82rem;color:#d6e0f0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.tile{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;box-shadow:var(--sh);cursor:pointer;font:inherit;color:inherit}
+.tile:hover{border-color:var(--navy);transform:translateY(-1px)}
+.tile .ic{width:38px;height:38px;border-radius:8px;background:var(--navy-3);color:var(--navy);display:grid;place-items:center}
+.tile .ic svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tile b{font:700 1rem var(--display);color:var(--navy)}
+.tile span.d{color:var(--muted);font-size:.86rem}
+.tile .go{margin-top:auto;font:700 .8rem var(--body);color:var(--accent)}
+.fit{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.fit div{border-left:4px solid var(--green);padding:4px 12px}
+.fit b{color:var(--navy);display:block}
+footer{background:var(--navy);color:#cfd8e6;font-size:.84rem}
+footer .wrap{padding-block:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+footer strong{color:#fff;display:block;margin-bottom:4px}
+footer a{color:#cfd8e6;display:block;padding:1px 0}
+.fb{background:#08234a;color:#9fb1cc;font-size:.78rem;text-align:center;padding:8px 16px}
+@media(max-width:899px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:14px;padding-top:12px}
+  nav.side{position:sticky;top:0;z-index:20;border-radius:0 0 10px 10px;padding:6px;margin:0 -4px}
+  nav.side .in{flex-direction:row;overflow-x:auto;gap:4px}
+  nav.side .lbl{display:none}
+  nav.side button{width:auto;flex:none;padding:8px 12px;white-space:nowrap}
+  .hero{grid-template-columns:minmax(0,1fr);padding:18px}.hero .big{font-size:1.5rem}
+}
 </style>
 </head>
 <body>
 
+<a class="skip" href="#main" data-t="skip">मुख्य मजकुराकडे जा</a>
 <div class="tri"></div>
-<div class="util"><div class="wrap"><span data-t="utl">उपविषय: शेतकरी उत्पन्न संरक्षण, बाजार प्रवेश आणि डिजिटल पीक-नुकसान मूल्यांकन · प्रोटोटाइप</span><div class="lang"><button id="l-mr" aria-pressed="true">मराठी</button><button id="l-en" aria-pressed="false">English</button></div></div></div>
+<div class="util"><div class="wrap"><span data-t="utl">उपविषय: शेतकरी उत्पन्न संरक्षण, बाजार प्रवेश आणि डिजिटल पीक-नुकसान मूल्यांकन · प्रोटोटाइप</span>
+<div class="ctl"><div class="seg" role="group" aria-label="Text size"><button id="fs-" aria-label="Smaller text">A-</button><button id="fs0" aria-label="Normal text">A</button><button id="fs+" aria-label="Larger text">A+</button></div>
+<div class="seg" role="group" aria-label="Language"><button id="l-mr" aria-pressed="true">मराठी</button><button id="l-en" aria-pressed="false">English</button></div></div></div></div>
 <div class="mast"><div class="wrap"><div class="logo" aria-hidden="true"></div><div class="brand">उर्जा शेतकरी<small data-t="tag">अन्नदाता ते ऊर्जादाता · उत्पन्न सुरक्षा, बाजार प्रवेश व पीक-नुकसान मदत एकाच ठिकाणी</small></div></div></div>
-<nav><div class="in" role="tablist">
-    <button role="tab" data-tab="yojana" aria-selected="true" data-t="t1">योजना शोधा</button>
-    <button role="tab" data-tab="gobar" aria-selected="false" data-t="t2">शेण संकलन</button>
-    <button role="tab" data-tab="install" aria-selected="false" data-t="t3">गावातील इंस्टॉलर</button>
-    <button role="tab" data-tab="monitor" aria-selected="false" data-t="t4">सोलर मॉनिटर</button>
-    <button role="tab" data-tab="market" aria-selected="false" data-t="t6">बाजार</button>
-    <button role="tab" data-tab="loss" aria-selected="false" data-t="t7">पीक नुकसान</button>
-    <button role="tab" data-tab="income" aria-selected="false" data-t="t5">माझे उत्पन्न</button>
-  </div></nav>
 <div class="demo" data-t="demo">प्रोटोटाइप डेमो · नमुना माहिती · आकडे अंदाजे, MSEDCL / MNRE / GOBARdhan कडून खात्री करा</div>
-
-<main class="wrap"><div class="crumb" data-t="crumb">मुख्यपृष्ठ › सेवा</div>
-<section id="yojana">
+<div class="wrap shell">
+<nav class="side" aria-label="Main"><div class="lbl" data-t="menu">सेवा</div><div class="in" role="tablist"><button role="tab" data-tab="home" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span data-t="t0">मुख्यपृष्ठ</span></button><button role="tab" data-tab="yojana" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h6"/></svg><span data-t="t1">योजना शोधा</span></button><button role="tab" data-tab="gobar" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19c3-5 6-8 11-10"/></svg><span data-t="t2">शेण संकलन</span></button><button role="tab" data-tab="install" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><span data-t="t3">गावातील इंस्टॉलर</span></button><button role="tab" data-tab="monitor" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg><span data-t="t4">सोलर मॉनिटर</span></button><button role="tab" data-tab="market" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l2-5h14l2 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg><span data-t="t6">बाजार</span></button><button role="tab" data-tab="loss" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span data-t="t7">पीक नुकसान</span></button><button role="tab" data-tab="income" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span data-t="t5">माझे उत्पन्न</span></button></div></nav>
+<main id="main"><div class="crumb" id="crumb"></div>
+<section id="home">
+  <div class="hero"><div>
+    <span class="badge" data-t="hb">Seva First Innovation Challenge 2026 · महाराष्ट्र झोन</span>
+    <div class="big h1" data-t="hh">शेतकरी अन्नदाता सोबत ऊर्जादाता</div>
+    <p data-t="hp">सौर ऊर्जा, बायोगॅस, मंडई माहिती आणि पीक-नुकसान पुरावा एकाच मराठी पोर्टलवर. पिकाबाहेरचे उत्पन्न, जवळचा बाजार आणि नुकसानीत मदत.</p>
+    <div class="row"><button class="btn" data-go="yojana" data-t="hc1">योजना शोधा</button><button class="btn ghost" data-go="loss" data-t="hc2">पीक नुकसान पुरावा</button></div>
+  </div>
+  <div class="hk"><div><b>5</b><span data-t="k1">सरकारी योजना एकत्र जोडल्या</span></div><div><b>72 h</b><span data-t="k2">नुकसान सूचनेची मुदत (PMFBY)</span></div><div><b>+67%</b><span data-t="k3">उदाहरण: पिकाशिवाय अतिरिक्त उत्पन्न (अंदाज)</span></div></div></div>
+  <h2 class="sub" data-t="sv">सेवा</h2>
+  <div class="tiles"><button class="tile" data-go="yojana"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h6"/></svg></span><b data-t="tb0">योजना शोधा</b><span class="d" data-t="td0">पीएम-कुसुम, MSKVY, गोबरधन: तुमचा वाटा आणि कागदपत्रे</span><span class="go" data-t="go">उघडा →</span></button><button class="tile" data-go="gobar"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19c3-5 6-8 11-10"/></svg></span><b data-t="tb1">शेण संकलन</b><span class="d" data-t="td1">शेण द्या, UPI वर पैसे मिळवा</span><span class="go" data-t="go">उघडा →</span></button><button class="tile" data-go="install"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span><b data-t="tb2">गावातील इंस्टॉलर</b><span class="d" data-t="td2">प्रशिक्षित तंत्रज्ञ बुक करा</span><span class="go" data-t="go">उघडा →</span></button><button class="tile" data-go="monitor"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></span><b data-t="tb3">सोलर मॉनिटर</b><span class="d" data-t="td3">पंपाचे उत्पादन व धूळ अलर्ट</span><span class="go" data-t="go">उघडा →</span></button><button class="tile" data-go="market"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l2-5h14l2 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/></svg></span><b data-t="tb4">बाजार</b><span class="d" data-t="td4">जवळची मंडई, भाव, सामूहिक लॉट</span><span class="go" data-t="go">उघडा →</span></button><button class="tile" data-go="loss"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span><b data-t="tb5">पीक नुकसान</b><span class="d" data-t="td5">72 तासांचे टप्पे व पुरावा पान</span><span class="go" data-t="go">उघडा →</span></button><button class="tile" data-go="income"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><b data-t="tb6">माझे उत्पन्न</b><span class="d" data-t="td6">पीक + वीज + शेण एकत्र</span><span class="go" data-t="go">उघडा →</span></button></div>
+  <h2 class="sub" data-t="fit">उपविषयाशी जोड</h2>
+  <div class="panel fit"><div><b data-t="f1">उत्पन्न संरक्षण</b><span class="k" data-t="f1d">सौर, जमीन भाडे, शेण: पिकाबाहेरचे उत्पन्न</span></div><div><b data-t="f2">बाजार प्रवेश</b><span class="k" data-t="f2d">मंडई माहिती आणि FPO सामूहिक लॉट</span></div><div><b data-t="f3">डिजिटल पीक-नुकसान मदत</b><span class="k" data-t="f3d">ई-पीक पाहणी व PMFBY ला पूरक पुरावा</span></div></div>
+</section>
+<section id="yojana" hidden>
   <h1 data-t="h1">तुम्हाला कोणती योजना मिळू शकते?</h1>
   <p class="lead" data-t="p1">तुमची माहिती भरा. ॲप सांगेल कोणत्या सरकारी योजना लागू होतात, तुमचा वाटा किती आणि कोणती कागदपत्रे लागतील.</p>
   <form id="f" class="panel grid">
@@ -198,12 +244,18 @@ footer strong{color:#fff}
   <div class="panel" id="inc"></div>
   <p class="note" data-t="inote">उदाहरण आकडे, 4 एकर, 6 जनावरे. वास्तविक उत्पन्न योजना, दर आणि हवामानावर अवलंबून.</p>
 </section>
-</main>
-<footer><div class="wrap"><strong data-t="ft1">उर्जा शेतकरी · Seva First Innovation Challenge 2026 साठी विद्यार्थी प्रकल्प</strong><span data-t="ft2">हे अधिकृत सरकारी संकेतस्थळ नाही. योजनांची अधिकृत माहिती pmkusum.mnre.gov.in, mahadiscom.in आणि gobardhan.sbm.gov.in वर पहा.</span><span data-t="ft3">विकसक: आशिष पाटील</span></div></footer>
+</main></div>
+<footer><div class="wrap">
+<div><strong data-t="ft1">उर्जा शेतकरी · Seva First Innovation Challenge 2026 साठी विद्यार्थी प्रकल्प</strong><span data-t="ft3">विकसक: आशिष पाटील</span></div>
+<div><strong data-t="fl">अधिकृत स्रोत</strong><a href="https://sevafirst.mic.gov.in/" target="_blank" rel="noopener">sevafirst.mic.gov.in</a><a href="https://pmkusum.mnre.gov.in/" target="_blank" rel="noopener">pmkusum.mnre.gov.in</a><a href="https://gobardhan.sbm.gov.in/" target="_blank" rel="noopener">gobardhan.sbm.gov.in</a></div>
+<div><strong data-t="fd">सूचना</strong><span data-t="ft2">हे अधिकृत सरकारी संकेतस्थळ नाही. योजनांची अधिकृत माहिती pmkusum.mnre.gov.in, mahadiscom.in आणि gobardhan.sbm.gov.in वर पहा.</span></div>
+</div><div class="fb" data-t="fb">प्रोटोटाइप · नमुना माहिती · 2026</div></footer>
 
 <script>
 const T={
- en:{t6:"Market",t7:"Crop loss",h6:"Market: nearest mandi and group lot",p6:"The farmer sees the nearest mandi (APMC) and its price. FPO members pool produce into one big lot so that dealers come to them.",mcrop:"Crop",mand:"Mandi",mdist:"Approx. distance",mprice:"Price (₹/quintal)",mday:"Market days",lot:"FPO group lot",qtyq:"Produce (quintal)",ltot:"Total lot",lstat:"Status for dealers",fix:"Fixed buyers beyond the crop",mnote2:"Demo: mandi prices are samples. Real prices will come from government Agmarknet / e-NAM data. Private dealers' phone numbers are not shown without their consent. The lot threshold (100 quintal) is an example.",
+ en:{t0:"Home",skip:"Skip to main content",menu:"Services",hb:"Seva First Innovation Challenge 2026 · Maharashtra zone",hh:"From food provider to energy provider",hp:"Solar power, biogas, mandi information and crop-loss evidence on one Marathi portal. Income beyond the crop, a nearer market and help after a loss.",hc1:"Find schemes",hc2:"Crop-loss evidence",k1:"government schemes brought together",k2:"loss intimation window (PMFBY)",k3:"example: extra income beyond the crop (estimate)",sv:"Services",fit:"Fit with the sub-theme",f1:"Income protection",f1d:"Solar, land lease, dung: income beyond the crop",f2:"Market access",f2d:"Mandi information and FPO group lots",f3:"Digital crop-loss help",f3d:"Evidence that supports e-Peek Pahani and PMFBY",go:"Open →",
+ tb0:"Find schemes",td0:"PM-KUSUM, MSKVY, GOBARdhan: your share and documents",tb1:"Dung collection",td1:"Give dung, get paid on UPI",tb2:"Village installers",td2:"Book a trained technician",tb3:"Solar monitor",td3:"Pump output and dust alerts",tb4:"Market",td4:"Nearest mandi, prices, group lot",tb5:"Crop loss",td5:"72-hour steps and evidence sheet",tb6:"My income",td6:"Crop + power + dung together",fl:"Official sources",fd:"Notice",fb:"Prototype · sample data · 2026",
+ t6:"Market",t7:"Crop loss",h6:"Market: nearest mandi and group lot",p6:"The farmer sees the nearest mandi (APMC) and its price. FPO members pool produce into one big lot so that dealers come to them.",mcrop:"Crop",mand:"Mandi",mdist:"Approx. distance",mprice:"Price (₹/quintal)",mday:"Market days",lot:"FPO group lot",qtyq:"Produce (quintal)",ltot:"Total lot",lstat:"Status for dealers",fix:"Fixed buyers beyond the crop",mnote2:"Demo: mandi prices are samples. Real prices will come from government Agmarknet / e-NAM data. Private dealers' phone numbers are not shown without their consent. The lot threshold (100 quintal) is an example.",
  h7:"Crop loss: intimation and evidence",p7:"The e-Peek Pahani and crop insurance (PMFBY) apps already exist. This page helps in between: it tells you when, what and how, and prepares a one-page evidence sheet. It does not replace the official panchnama.",s1:"At the start of the season, register your crop in the e-Peek Pahani app.",s2:"After a loss, give intimation on the crop insurance app / helpline within 72 hours.",s3:"Record photo, location and time below. An evidence sheet is prepared.",s4:"Show the evidence sheet to the Krishi Sahayak or Talathi and ask for a panchnama.",wx:"Rainfall alert (demo)",wxin:"Rainfall vs normal (%)",evh:"Prepare loss evidence",efn:"Farmer name",efg:"Gat / survey number",efc:"Crop",efr:"Cause",r1:"Drought / dry spell",r2:"Heavy rain / flood",r3:"Hailstorm",r4:"Pest / disease",efd:"Date of loss",efp:"Photo",eloc:"Capture location",egen:"Prepare evidence sheet",lnote:"This tool provides supporting evidence for the official assessment. It does not approve compensation. Whether it speeds up claims will be tested in the pilot.",
  utl:"Sub-theme: Farmer income protection, market access and digital crop-loss assessment · Prototype",crumb:"Home › Services",ft1:"Urja Shetkari · Student project for Seva First Innovation Challenge 2026",ft2:"This is not an official government website. For official scheme details see pmkusum.mnre.gov.in, mahadiscom.in and gobardhan.sbm.gov.in.",ft3:"Developer: Ashish Patil",demo:"Prototype demo · sample data · figures indicative, verify with MSEDCL / MNRE / GOBARdhan",tag:"From food provider to energy provider · Income protection, market access and crop-loss help in one place",t1:"Find schemes",t2:"Dung collection",t3:"Village installers",t4:"Solar monitor",t5:"My income",
  h1:"Which schemes can you get?",p1:"Fill in your details. The app shows which government schemes apply, your share of the cost, and the documents you need.",acres:"Land (acres)",sub:"Distance to substation (km)",hp:"Pump capacity",cat:"Category",gen:"General",scst:"SC / ST",cows:"Cows / buffaloes",grid:"Has electricity connection?",no:"No (diesel pump)",yes:"Yes",check:"Check",
@@ -219,12 +271,19 @@ const L=(mr,en)=>lang==="mr"?mr:en;
 function setLang(l){lang=l;document.documentElement.lang=l==="mr"?"mr":"en";
  document.querySelectorAll("[data-t]").forEach(e=>{const v=T[l][e.dataset.t];if(v)e.textContent=v});
  document.getElementById("l-mr").setAttribute("aria-pressed",l==="mr");document.getElementById("l-en").setAttribute("aria-pressed",l==="en");
- check();renderG();renderI();renderInc();drawM();renderM();renderL();renderW();if(eout.innerHTML)ef.requestSubmit();}
+ check();renderG();renderI();renderInc();drawM();renderM();renderL();renderW();setCrumb();if(eout.innerHTML)ef.requestSubmit();}
 document.getElementById("l-mr").onclick=()=>setLang("mr");document.getElementById("l-en").onclick=()=>setLang("en");
 
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
- document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x===b));
- document.querySelectorAll("main section").forEach(s=>s.hidden=s.id!==b.dataset.tab);});
+let current="home";
+function setCrumb(){const b=document.querySelector('nav.side button[data-tab="'+current+'"]');crumb.textContent=L("मुख्यपृष्ठ","Home")+(current==="home"?"":" › "+b.querySelector("span").textContent)}
+function go(tab,init){const b=document.querySelector('nav.side button[data-tab="'+tab+'"]');if(!b)return;
+ document.querySelectorAll("nav.side button").forEach(x=>x.setAttribute("aria-selected",x===b));
+ document.querySelectorAll("main section").forEach(s=>s.hidden=s.id!==tab);
+ current=tab;setCrumb();if(!init){try{history.replaceState(null,"",tab==="home"?location.pathname:"#"+tab)}catch(e){}window.scrollTo({top:0})}}
+document.querySelectorAll("nav.side button").forEach(b=>b.onclick=()=>go(b.dataset.tab));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+let fs=15;function setFs(n){fs=Math.max(13,Math.min(20,n));document.documentElement.style.fontSize=fs+"px"}
+document.getElementById("fs-").onclick=()=>setFs(fs-1);document.getElementById("fs0").onclick=()=>setFs(15);document.getElementById("fs+").onclick=()=>setFs(fs+1);
 
 const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
 const PUMP={3:190000,5:285000,7.5:380000};
@@ -319,6 +378,7 @@ ef.onsubmit=e=>{e.preventDefault();const now=new Date(),d=ed.value||now.toISOStr
  <div class="k" style="margin-top:8px">${L("हा पुरावा सरकारी पंचनाम्याला पूरक आहे.","This evidence supports the official panchnama.")}</div></div>`;};
 
 check();renderG();renderI();renderInc();drawM();renderM();renderL();renderW();
+{const h=location.hash.slice(1);go(document.querySelector('nav.side button[data-tab="'+h+'"]')?h:"home",true);if(h)setTimeout(()=>window.scrollTo({top:0,behavior:"instant"}),60)}
 </script>
 </body>
 </html>
