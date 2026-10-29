@@ -65,6 +65,14 @@ svg text{fill:var(--muted);font:12px var(--mono)}
 .status{display:flex;align-items:center;gap:8px;font-weight:700}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--green)}
 .dot.bad{background:var(--warn)}
+h2.sub{font:700 1.1rem var(--display);color:var(--navy);margin:22px 0 8px}
+ol.steps{list-style:none;counter-reset:st;margin:0;padding:0;display:grid;gap:10px}
+ol.steps li{counter-increment:st;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--saffron);border-radius:4px;padding:10px 14px 10px 52px;position:relative}
+ol.steps li::before{content:counter(st);position:absolute;left:14px;top:10px;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:700 .85rem var(--body)}
+.ev{border:2px dashed var(--navy);background:#fff;border-radius:4px;padding:14px;margin-top:12px}
+.ev img{max-width:100%;max-height:220px;border-radius:4px;border:1px solid var(--line);display:block;margin-top:8px}
+.lvl{display:inline-block;padding:3px 10px;border-radius:3px;font-weight:700;font-size:.85rem}
+.lvl.g{background:#e6f4e4;color:var(--green)}.lvl.y{background:#fff4e5;color:#7a4200}.lvl.r{background:#fdecea;color:var(--warn)}
 footer{background:var(--navy);color:#cfd8e6;font-size:.82rem;margin-top:24px}
 footer .wrap{padding-block:20px;display:grid;gap:6px}
 footer strong{color:#fff}
@@ -73,13 +81,15 @@ footer strong{color:#fff}
 <body>
 
 <div class="tri"></div>
-<div class="util"><div class="wrap"><span data-t="utl">शेतकरी ऊर्जा सेवा पोर्टल (विद्यार्थी प्रोटोटाइप)</span><div class="lang"><button id="l-mr" aria-pressed="true">मराठी</button><button id="l-en" aria-pressed="false">English</button></div></div></div>
-<div class="mast"><div class="wrap"><div class="logo" aria-hidden="true"></div><div class="brand">उर्जा शेतकरी<small data-t="tag">अन्नदाता ते ऊर्जादाता · सौर व बायोगॅस योजना एकाच ठिकाणी</small></div></div></div>
+<div class="util"><div class="wrap"><span data-t="utl">उपविषय: शेतकरी उत्पन्न संरक्षण, बाजार प्रवेश आणि डिजिटल पीक-नुकसान मूल्यांकन · प्रोटोटाइप</span><div class="lang"><button id="l-mr" aria-pressed="true">मराठी</button><button id="l-en" aria-pressed="false">English</button></div></div></div>
+<div class="mast"><div class="wrap"><div class="logo" aria-hidden="true"></div><div class="brand">उर्जा शेतकरी<small data-t="tag">अन्नदाता ते ऊर्जादाता · उत्पन्न सुरक्षा, बाजार प्रवेश व पीक-नुकसान मदत एकाच ठिकाणी</small></div></div></div>
 <nav><div class="in" role="tablist">
     <button role="tab" data-tab="yojana" aria-selected="true" data-t="t1">योजना शोधा</button>
     <button role="tab" data-tab="gobar" aria-selected="false" data-t="t2">शेण संकलन</button>
     <button role="tab" data-tab="install" aria-selected="false" data-t="t3">गावातील इंस्टॉलर</button>
     <button role="tab" data-tab="monitor" aria-selected="false" data-t="t4">सोलर मॉनिटर</button>
+    <button role="tab" data-tab="market" aria-selected="false" data-t="t6">बाजार</button>
+    <button role="tab" data-tab="loss" aria-selected="false" data-t="t7">पीक नुकसान</button>
     <button role="tab" data-tab="income" aria-selected="false" data-t="t5">माझे उत्पन्न</button>
   </div></nav>
 <div class="demo" data-t="demo">प्रोटोटाइप डेमो · नमुना माहिती · आकडे अंदाजे, MSEDCL / MNRE / GOBARdhan कडून खात्री करा</div>
@@ -137,6 +147,51 @@ footer strong{color:#fff}
   <p class="note" data-t="mnote">डेमो डेटा: 5 HP (≈3.7 kW) पंप, सिम्युलेटेड. प्रत्यक्ष उपकरणात ESP32 + INA219 डेटा पाठवेल.</p>
 </section>
 
+<section id="market" hidden>
+  <h1 data-t="h6">बाजार: जवळची मंडई आणि सामूहिक लॉट</h1>
+  <p class="lead" data-t="p6">शेतकऱ्याला जवळची मंडई (APMC) आणि तिचा भाव कळतो. FPO मधील शेतकरी माल एकत्र करून मोठा लॉट दाखवतात, म्हणजे डीलर स्वतः येतो.</p>
+  <div class="panel row"><label style="flex:0 1 220px"><span data-t="mcrop">पीक</span><select id="mcrop"></select></label></div>
+  <div class="panel tbl" style="margin-top:12px"><table><thead><tr><th data-t="mand">मंडई</th><th data-t="mdist">अंदाजे अंतर</th><th data-t="mprice">भाव (₹/क्विंटल)</th><th data-t="mday">बाजार दिवस</th></tr></thead><tbody id="mt"></tbody></table></div>
+  <h2 class="sub" data-t="lot">FPO सामूहिक लॉट</h2>
+  <form id="lf" class="panel row">
+    <label style="flex:1 1 160px"><span data-t="farmer">शेतकरी</span><input id="lname" value="रामदास जाधव"></label>
+    <label style="flex:0 1 140px"><span data-t="qtyq">माल (क्विंटल)</span><input id="lq" type="number" min="1" value="20"></label>
+    <button class="btn" type="submit" data-t="add">नोंद करा</button>
+  </form>
+  <div class="grid" style="margin-top:12px">
+    <div class="panel"><div class="k" data-t="ltot">एकूण लॉट</div><div class="num" id="ltot">0</div></div>
+    <div class="panel"><div class="k" data-t="lstat">डीलरसाठी स्थिती</div><div id="lst" style="margin-top:6px"></div></div>
+  </div>
+  <h2 class="sub" data-t="fix">पिकाशिवाय पक्के खरेदीदार</h2>
+  <div class="grid" id="buyers"></div>
+  <p class="note" data-t="mnote2">डेमो: मंडईचे भाव नमुना आहेत. प्रत्यक्ष भाव सरकारी Agmarknet / e-NAM डेटामधून येतील. खासगी डीलरचे फोन नंबर परवानगीशिवाय दाखवले जाणार नाहीत. लॉटची मर्यादा (100 क्विंटल) उदाहरण आहे.</p>
+</section>
+
+<section id="loss" hidden>
+  <h1 data-t="h7">पीक नुकसान: सूचना आणि पुरावा</h1>
+  <p class="lead" data-t="p7">ई-पीक पाहणी आणि पीक विमा (PMFBY) ॲप आधीच आहेत. हे पान त्यांच्या मध्ये मदत करते: कधी, काय आणि कसे करायचे ते सांगते आणि नुकसानीचा पुरावा एका पानात तयार करते. सरकारी पंचनाम्याची जागा घेत नाही.</p>
+  <ol class="steps">
+    <li data-t="s1">हंगामाच्या सुरुवातीला ई-पीक पाहणी ॲपमध्ये तुमचे पीक नोंदवा.</li>
+    <li data-t="s2">नुकसान झाल्यावर 72 तासांच्या आत पीक विमा ॲप / हेल्पलाइनवर सूचना द्या.</li>
+    <li data-t="s3">खाली फोटो, ठिकाण आणि वेळ नोंदवा. पुरावा पान तयार होईल.</li>
+    <li data-t="s4">कृषी सहाय्यक किंवा तलाठ्याला पुरावा पान दाखवून पंचनामा मागा.</li>
+  </ol>
+  <h2 class="sub" data-t="wx">पावसाचा इशारा (डेमो)</h2>
+  <div class="panel row"><label style="flex:0 1 240px"><span data-t="wxin">सरासरीपेक्षा पाऊस (%)</span><input id="wx" type="number" value="-35"></label><div id="wxo" role="status" style="flex:1 1 240px"></div></div>
+  <h2 class="sub" data-t="evh">नुकसान पुरावा तयार करा</h2>
+  <form id="ef" class="panel grid">
+    <label><span data-t="efn">शेतकरी नाव</span><input id="en" value="सुनीता पाटील"></label>
+    <label><span data-t="efg">गट / सर्व्हे क्रमांक</span><input id="eg" value="गट 214"></label>
+    <label><span data-t="efc">पीक</span><input id="ec" value="सोयाबीन"></label>
+    <label><span data-t="efr">कारण</span><select id="er"><option value="d" data-t="r1">दुष्काळ / पावसाचा खंड</option><option value="f" data-t="r2">अतिवृष्टी / पूर</option><option value="h" data-t="r3">गारपीट</option><option value="p" data-t="r4">कीड / रोग</option></select></label>
+    <label><span data-t="efd">नुकसानीची तारीख</span><input id="ed" type="date"></label>
+    <label><span data-t="efp">फोटो</span><input id="ep" type="file" accept="image/*" capture="environment"></label>
+    <div class="row"><button class="btn" type="button" id="eloc" data-t="eloc">ठिकाण नोंदवा</button><button class="btn" type="submit" data-t="egen">पुरावा पान तयार करा</button></div>
+  </form>
+  <div id="eout"></div>
+  <p class="note" data-t="lnote">हे साधन सरकारी मूल्यांकनाला पूरक पुरावा देते. ते नुकसान भरपाई मंजूर करत नाही. परिणाम (दावे लवकर होतात का) पायलटमध्ये तपासले जातील.</p>
+</section>
+
 <section id="income" hidden>
   <h1 data-t="h5">एका शेतकऱ्याचे वार्षिक उत्पन्न (उदाहरण)</h1>
   <p class="lead" data-t="p5">पिकासोबत ऊर्जा आणि शेणातून येणारे उत्पन्न एकाच ठिकाणी.</p>
@@ -148,7 +203,9 @@ footer strong{color:#fff}
 
 <script>
 const T={
- en:{utl:"Farmer Energy Services Portal (student prototype)",crumb:"Home › Services",ft1:"Urja Shetkari · Student project for Seva First Innovation Challenge 2026",ft2:"This is not an official government website. For official scheme details see pmkusum.mnre.gov.in, mahadiscom.in and gobardhan.sbm.gov.in.",ft3:"Developer: Ashish Patil",demo:"Prototype demo · sample data · figures indicative, verify with MSEDCL / MNRE / GOBARdhan",tag:"From food provider to energy provider · Solar and biogas schemes in one place",t1:"Find schemes",t2:"Dung collection",t3:"Village installers",t4:"Solar monitor",t5:"My income",
+ en:{t6:"Market",t7:"Crop loss",h6:"Market: nearest mandi and group lot",p6:"The farmer sees the nearest mandi (APMC) and its price. FPO members pool produce into one big lot so that dealers come to them.",mcrop:"Crop",mand:"Mandi",mdist:"Approx. distance",mprice:"Price (₹/quintal)",mday:"Market days",lot:"FPO group lot",qtyq:"Produce (quintal)",ltot:"Total lot",lstat:"Status for dealers",fix:"Fixed buyers beyond the crop",mnote2:"Demo: mandi prices are samples. Real prices will come from government Agmarknet / e-NAM data. Private dealers' phone numbers are not shown without their consent. The lot threshold (100 quintal) is an example.",
+ h7:"Crop loss: intimation and evidence",p7:"The e-Peek Pahani and crop insurance (PMFBY) apps already exist. This page helps in between: it tells you when, what and how, and prepares a one-page evidence sheet. It does not replace the official panchnama.",s1:"At the start of the season, register your crop in the e-Peek Pahani app.",s2:"After a loss, give intimation on the crop insurance app / helpline within 72 hours.",s3:"Record photo, location and time below. An evidence sheet is prepared.",s4:"Show the evidence sheet to the Krishi Sahayak or Talathi and ask for a panchnama.",wx:"Rainfall alert (demo)",wxin:"Rainfall vs normal (%)",evh:"Prepare loss evidence",efn:"Farmer name",efg:"Gat / survey number",efc:"Crop",efr:"Cause",r1:"Drought / dry spell",r2:"Heavy rain / flood",r3:"Hailstorm",r4:"Pest / disease",efd:"Date of loss",efp:"Photo",eloc:"Capture location",egen:"Prepare evidence sheet",lnote:"This tool provides supporting evidence for the official assessment. It does not approve compensation. Whether it speeds up claims will be tested in the pilot.",
+ utl:"Sub-theme: Farmer income protection, market access and digital crop-loss assessment · Prototype",crumb:"Home › Services",ft1:"Urja Shetkari · Student project for Seva First Innovation Challenge 2026",ft2:"This is not an official government website. For official scheme details see pmkusum.mnre.gov.in, mahadiscom.in and gobardhan.sbm.gov.in.",ft3:"Developer: Ashish Patil",demo:"Prototype demo · sample data · figures indicative, verify with MSEDCL / MNRE / GOBARdhan",tag:"From food provider to energy provider · Income protection, market access and crop-loss help in one place",t1:"Find schemes",t2:"Dung collection",t3:"Village installers",t4:"Solar monitor",t5:"My income",
  h1:"Which schemes can you get?",p1:"Fill in your details. The app shows which government schemes apply, your share of the cost, and the documents you need.",acres:"Land (acres)",sub:"Distance to substation (km)",hp:"Pump capacity",cat:"Category",gen:"General",scst:"SC / ST",cows:"Cows / buffaloes",grid:"Has electricity connection?",no:"No (diesel pump)",yes:"Yes",check:"Check",
  h2:"Give dung, get paid",p2:"Farmers log their daily dung. A village collector picks it up and delivers it to the CBG plant. Payment goes straight to UPI.",farmer:"Farmer",kg:"Kg",add:"Add entry",today:"Collected today",paid:"Due to farmers",cbg:"Estimated CBG",st:"Status",gnote:"Assumed: ₹1 per kg of dung, about 40 kg CBG per tonne of dung. The real rate is set by contract with the plant.",
  h3:"Trained solar technicians in your village",p3:"Suryamitra-trained youth from nearby villages. Pick the closest technician and book installation or repair.",
@@ -162,7 +219,7 @@ const L=(mr,en)=>lang==="mr"?mr:en;
 function setLang(l){lang=l;document.documentElement.lang=l==="mr"?"mr":"en";
  document.querySelectorAll("[data-t]").forEach(e=>{const v=T[l][e.dataset.t];if(v)e.textContent=v});
  document.getElementById("l-mr").setAttribute("aria-pressed",l==="mr");document.getElementById("l-en").setAttribute("aria-pressed",l==="en");
- check();renderG();renderI();renderInc();drawM();}
+ check();renderG();renderI();renderInc();drawM();renderM();renderL();renderW();if(eout.innerHTML)ef.requestSubmit();}
 document.getElementById("l-mr").onclick=()=>setLang("mr");document.getElementById("l-en").onclick=()=>setLang("en");
 
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
@@ -223,7 +280,45 @@ function renderInc(){const rows=[[L("पीक (कांदा/सोयाब�
  const tot=rows.reduce((a,r)=>a+r[1],0),max=rows[0][1];
  inc.innerHTML=rows.map(r=>`<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;margin-bottom:10px"><div>${r[0]}</div><div style="font:500 1rem var(--mono)">${inr(r[1])}</div><div style="grid-column:1/-1;height:10px;background:var(--bg);border-radius:5px"><div style="height:100%;width:${r[1]/max*100}%;background:${r[2]};border-radius:5px"></div></div></div>`).join("")+
  `<div style="border-top:1px solid var(--line);padding-top:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><strong>${L("एकूण","Total")}</strong><span class="num">${inr(tot)}</span></div><div class="k">${L("फक्त पिकापेक्षा","vs crop only")} +${Math.round((tot-max)/max*100)}%</div>`;}
-check();renderG();renderI();renderInc();drawM();
+
+const MK={onion:{mr:"कांदा",en:"Onion",rows:[["लासलगाव","Lasalgaon",35,2150,"दररोज","Daily"],["पिंपळगाव बसवंत","Pimpalgaon Baswant",28,2100,"दररोज","Daily"],["नाशिक APMC","Nashik APMC",40,2050,"दररोज","Daily"]]},
+ soy:{mr:"सोयाबीन",en:"Soybean",rows:[["नाशिक APMC","Nashik APMC",40,4300,"सोम–शनि","Mon–Sat"],["येवला","Yeola",75,4250,"सोम–शनि","Mon–Sat"],["सिन्नर","Sinnar",30,4280,"सोम–शनि","Mon–Sat"]]},
+ tom:{mr:"टोमॅटो",en:"Tomato",rows:[["नाशिक APMC","Nashik APMC",40,1800,"दररोज","Daily"],["पिंपळगाव बसवंत","Pimpalgaon Baswant",28,1750,"दररोज","Daily"],["वणी","Vani",45,1700,"आठवडी","Weekly"]]}};
+function renderM(){const k=mcrop.value||"onion";mcrop.innerHTML=Object.keys(MK).map(x=>`<option value="${x}" ${x===k?"selected":""}>${MK[x][lang]}</option>`).join("");
+ mt.innerHTML=MK[k].rows.map(r=>`<tr><td>${lang==="mr"?r[0]:r[1]}</td><td>${r[2]} km</td><td>${inr(r[3])} <span class="pill">${L("नमुना","sample")}</span></td><td>${lang==="mr"?r[4]:r[5]}</td></tr>`).join("");
+ buyers.innerHTML=[[L("वीज: महावितरण (MSEDCL)","Power: MSEDCL"),L("सौर प्रकल्पाची वीज दीर्घ कराराने खरेदी (पीएम-कुसुम / MSKVY)","Long-term purchase of solar power (PM-KUSUM / MSKVY)")],[L("CBG: गॅस वितरण कंपन्या","CBG: city gas companies"),L("गोबरधन योजनेत ₹2,110/MMBTU, किमान 10 वर्षे (अंदाज, तपासा)","₹2,110/MMBTU under GOBARdhan for at least 10 years (verify)")],[L("सेंद्रिय खत","Organic manure"),L("स्लरी खत शेतकऱ्यांना आणि बाजारात, ₹1,500/टन मदत","Slurry manure to farmers and market, ₹1,500/tonne support")]].map(b=>`<div class="panel"><strong style="color:var(--navy)">${b[0]}</strong><div class="k">${b[1]}</div></div>`).join("");}
+mcrop.addEventListener("change",renderM);
+const LOT=[{n:"रामदास जाधव",q:20},{n:"सुनीता पाटील",q:35},{n:"अनिल शिंदे",q:15}];
+function renderL(){const t=LOT.reduce((a,x)=>a+x.q,0);ltot.textContent=t+" "+L("क्विंटल","quintal");
+ lst.innerHTML=t>=100?`<span class="lvl g">${L("डीलरला दाखवण्यास तयार","Ready to show dealers")}</span>`:`<span class="lvl y">${L("आणखी","Need")} ${100-t} ${L("क्विंटल हवे","more quintal")}</span>`;}
+lf.onsubmit=e=>{e.preventDefault();const q=+lq.value;if(!lname.value.trim()||q<=0)return;LOT.push({n:lname.value.trim(),q});renderL();};
+function renderW(){const v=+wx.value;let c,m;
+ if(v<=-25){c="r";m=L("पावसाची मोठी तूट. पिकाची स्थिती नोंदवा आणि नुकसान झाल्यास 72 तासांत सूचना द्या.","Large rainfall deficit. Record crop condition and give intimation within 72 hours if damaged.");}
+ else if(v>=50){c="r";m=L("अतिवृष्टीचा धोका. पाणी साचल्यास लगेच फोटो काढा.","Heavy-rain risk. Take photos immediately if water stands in the field.");}
+ else if(v<=-10||v>=25){c="y";m=L("पावसात बदल. शेताचे निरीक्षण ठेवा.","Rainfall is off normal. Keep watching the field.");}
+ else{c="g";m=L("पाऊस सामान्य.","Rainfall is normal.");}
+ wxo.innerHTML=`<span class="lvl ${c}">${c==="r"?L("इशारा","Alert"):c==="y"?L("सावध","Watch"):L("ठीक","OK")}</span> ${m}`;}
+wx.addEventListener("input",renderW);
+let EPH="",ELOC="";
+ep.addEventListener("change",()=>{const f=ep.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{EPH=r.result};r.readAsDataURL(f);});
+eloc.onclick=()=>{try{navigator.geolocation.getCurrentPosition(p=>{ELOC=p.coords.latitude.toFixed(5)+", "+p.coords.longitude.toFixed(5);eloc.textContent=ELOC},()=>{eloc.textContent=L("ठिकाण मिळाले नाही","Location unavailable")},{timeout:8000})}catch(x){eloc.textContent=L("ठिकाण मिळाले नाही","Location unavailable")}};
+const RS={d:["दुष्काळ / पावसाचा खंड","Drought / dry spell"],f:["अतिवृष्टी / पूर","Heavy rain / flood"],h:["गारपीट","Hailstorm"],p:["कीड / रोग","Pest / disease"]};
+ef.onsubmit=e=>{e.preventDefault();const now=new Date(),d=ed.value||now.toISOString().slice(0,10);
+ const dl=new Date(d);dl.setHours(dl.getHours()+72);
+ eout.innerHTML=`<div class="ev"><strong style="color:var(--navy);font-size:1.05rem">${L("नुकसान पुरावा पान","Crop-loss evidence sheet")}</strong>
+ <table style="margin-top:8px"><tbody>
+ <tr><td>${L("शेतकरी","Farmer")}</td><td>${en.value}</td></tr>
+ <tr><td>${L("गट / सर्व्हे क्र.","Gat / survey no.")}</td><td>${eg.value}</td></tr>
+ <tr><td>${L("पीक","Crop")}</td><td>${ec.value}</td></tr>
+ <tr><td>${L("कारण","Cause")}</td><td>${RS[er.value][lang==="mr"?0:1]}</td></tr>
+ <tr><td>${L("नुकसान तारीख","Loss date")}</td><td>${d}</td></tr>
+ <tr><td>${L("नोंद वेळ","Recorded at")}</td><td>${now.toLocaleString(lang==="mr"?"mr-IN":"en-IN")}</td></tr>
+ <tr><td>${L("ठिकाण","Location")}</td><td>${ELOC||L("नोंदवले नाही","not captured")}</td></tr>
+ <tr><td>${L("सूचनेची अंतिम वेळ (72 तास)","Intimation deadline (72 h)")}</td><td>${dl.toLocaleDateString(lang==="mr"?"mr-IN":"en-IN")}</td></tr></tbody></table>
+ ${EPH?`<img src="${EPH}" alt="">`:`<div class="k" style="margin-top:8px">${L("फोटो जोडलेला नाही","No photo attached")}</div>`}
+ <div class="k" style="margin-top:8px">${L("हा पुरावा सरकारी पंचनाम्याला पूरक आहे.","This evidence supports the official panchnama.")}</div></div>`;};
+
+check();renderG();renderI();renderInc();drawM();renderM();renderL();renderW();
 </script>
 </body>
 </html>
